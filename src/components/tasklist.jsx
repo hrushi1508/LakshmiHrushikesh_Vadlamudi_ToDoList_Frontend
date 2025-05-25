@@ -30,7 +30,7 @@ function Tasklist() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/fetchtasks", getTokenHeader());
+      const response = await axios.get(`${import.meta.env.VITE_BASE_BACKEND_URL}/api/fetchtasks`, getTokenHeader());
       setTasks(sortTasksByDeadline(response.data));
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -46,7 +46,7 @@ function Tasklist() {
     const newTask = { title: task, description:description, deadline: tasktime};
 
     try {
-      const response = await axios.post("http://localhost:5000/api/addtasks", newTask, getTokenHeader());
+      const response = await axios.post(`${import.meta.env.VITE_BASE_BACKEND_URL}/api/addtasks`, newTask, getTokenHeader());
       setTasks((prev) => sortTasksByDeadline([...prev, response.data]));
       setTask("");
       setDescription("");
@@ -58,7 +58,7 @@ function Tasklist() {
 
   const handleDeleteTask = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/deletetasks/${id}`, getTokenHeader());
+      const response = await axios.delete(`${import.meta.env.VITE_BASE_BACKEND_URL}/api/deletetasks/${id}`, getTokenHeader());
       if (response.status === 200) {
         setTasks(tasks.filter((t) => t._id !== id));
       }
@@ -85,7 +85,7 @@ function Tasklist() {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/updatetasks/${taskToEdit._id}`,
+        `${import.meta.env.VITE_BASE_BACKEND_URL}/api/updatetasks/${taskToEdit._id}`,
         updatedTask,
         getTokenHeader()
       );
